@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="kz.kstu.kutsinas.course_project.db.academic_workload.controllers.AuthorizationController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+
+<AnchorPane prefHeight="233.0" prefWidth="447.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kz.kstu.kutsinas.course_project.db.academic_workload.controllers.AuthorizationController">
+   <children>
+       <Button layoutX="173.0" layoutY="172.0" onAction="#onSignInButtonClick" text="Авторизоваться" />
+      <Text layoutX="24.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Добро пожаловать в AcademicWorkload" textAlignment="CENTER" wrappingWidth="400.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <TextField fx:id="loginField" layoutX="40.0" layoutY="90.0" prefHeight="26.0" prefWidth="369.0" promptText="Логин" />
+      <TextField fx:id="passwordField" layoutX="39.0" layoutY="126.0" prefHeight="26.0" prefWidth="370.0" promptText="Пароль" />
+   </children>
+</AnchorPane>
