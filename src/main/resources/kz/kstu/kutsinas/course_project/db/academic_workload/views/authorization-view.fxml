@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="233.0" prefWidth="447.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kz.kstu.kutsinas.course_project.db.academic_workload.controllers.AuthorizationController">
    <children>
-       <Button layoutX="173.0" layoutY="172.0" onAction="#onSignInButtonClick" text="Авторизоваться" />
+       <Button fx:id="loginButton" layoutX="173.0" layoutY="172.0" onAction="#onSignInButtonClick" text="Авторизоваться" />
       <Text layoutX="24.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Добро пожаловать в AcademicWorkload" textAlignment="CENTER" wrappingWidth="400.0">
          <font>
             <Font size="24.0" />

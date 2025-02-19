@@ -6,6 +6,9 @@ module kz.kstu.kutsinas.course_project.db.academic_workload.academicworkload_cou
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
 
+    requires com.microsoft.sqlserver.jdbc;
+    requires java.sql;
+
 
     exports kz.kstu.kutsinas.course_project.db.academic_workload.runner;
     opens kz.kstu.kutsinas.course_project.db.academic_workload.runner to javafx.fxml;
