@@ -1,16 +1,12 @@
 package kz.kstu.kutsinas.course_project.db.academic_workload.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import kz.kstu.kutsinas.course_project.db.academic_workload.dao.UserDAO;
 import kz.kstu.kutsinas.course_project.db.academic_workload.service.AuthService;
 import kz.kstu.kutsinas.course_project.db.academic_workload.service.UserSession;
+import kz.kstu.kutsinas.course_project.db.academic_workload.utils.Reporter;
 import kz.kstu.kutsinas.course_project.db.academic_workload.utils.SceneLoader;
-
-import java.sql.Connection;
 
 public class AuthorizationController {
     @FXML
@@ -35,20 +31,25 @@ public class AuthorizationController {
 
         if (authService.loginUser(login, password)) {
 
+            String authStatus="Успешная авторизация!";
             String role = UserSession.getInstance().getRole();
             System.out.println(role);
             switch (role) {
                 case "teacher":
                     SceneLoader.loadScene("teacher-view.fxml", loginButton);
+                    Reporter.alertConfirmReporting(authStatus,"Вы вошли в систему как Учитель");
                     break;
                 case "dean":
                     SceneLoader.loadScene("dean-view.fxml", loginButton);
+                    Reporter.alertConfirmReporting(authStatus,"Вы вошли в систему как Декан");
                     break;
                 case "administrator":
                     SceneLoader.loadScene("admin-view.fxml", loginButton);
+                    Reporter.alertConfirmReporting(authStatus,"Вы вошли в систему как Администратор");
                     break;
                 case "responsibleForWorkload":
                     SceneLoader.loadScene("responsible_for_workload-view.fxml", loginButton);
+                    Reporter.alertConfirmReporting(authStatus,"Вы вошли в систему как Ответственный по нагрузке");
                     break;
                 default:
                     showAlert("Ошибка", "Неизвестная роль пользователя: " + role);
@@ -59,10 +60,6 @@ public class AuthorizationController {
     }
 
     private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        Reporter.alertErrorReporting(title,message);
     }
 }
