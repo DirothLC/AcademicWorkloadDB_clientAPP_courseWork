@@ -41,6 +41,7 @@ public class UserSession {
         try {
             if (connection != null) {
                 connection.close();
+                System.out.println("Соединение с БД разорвано");
             }
         } catch (SQLException e) {
             e.printStackTrace();

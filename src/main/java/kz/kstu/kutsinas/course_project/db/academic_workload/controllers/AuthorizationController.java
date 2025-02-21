@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import kz.kstu.kutsinas.course_project.db.academic_workload.service.AuthService;
 import kz.kstu.kutsinas.course_project.db.academic_workload.service.UserSession;
 import kz.kstu.kutsinas.course_project.db.academic_workload.utils.Reporter;
-import kz.kstu.kutsinas.course_project.db.academic_workload.utils.SceneLoader;
+import kz.kstu.kutsinas.course_project.db.academic_workload.utils.ViewLoader;
 
 public class AuthorizationController {
     @FXML
@@ -36,19 +36,19 @@ public class AuthorizationController {
             System.out.println(role);
             switch (role) {
                 case "teacher":
-                    SceneLoader.loadScene("teacher-view.fxml", loginButton);
+                    ViewLoader.loadScene("teacher-view.fxml", loginButton);
                     Reporter.alertConfirmReporting(authStatus,"Вы вошли в систему как Учитель");
                     break;
                 case "dean":
-                    SceneLoader.loadScene("dean-view.fxml", loginButton);
+                    ViewLoader.loadScene("dean-view.fxml", loginButton);
                     Reporter.alertConfirmReporting(authStatus,"Вы вошли в систему как Декан");
                     break;
                 case "administrator":
-                    SceneLoader.loadScene("admin-view.fxml", loginButton);
+                    ViewLoader.loadScene("admin-view.fxml", loginButton);
                     Reporter.alertConfirmReporting(authStatus,"Вы вошли в систему как Администратор");
                     break;
                 case "responsibleForWorkload":
-                    SceneLoader.loadScene("responsible_for_workload-view.fxml", loginButton);
+                    ViewLoader.loadScene("responsible_for_workload-view.fxml", loginButton);
                     Reporter.alertConfirmReporting(authStatus,"Вы вошли в систему как Ответственный по нагрузке");
                     break;
                 default:

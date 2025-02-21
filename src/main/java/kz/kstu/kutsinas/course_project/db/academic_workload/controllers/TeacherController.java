@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import kz.kstu.kutsinas.course_project.db.academic_workload.utils.ViewLoader;
 
 public class TeacherController {
     @FXML
@@ -37,6 +38,6 @@ public class TeacherController {
     }
     @FXML
     protected void onLogoutButtonClick(){
-
+        ViewLoader.loadStage("logout-view.fxml","Подтверждение выхода");
     }
 }
