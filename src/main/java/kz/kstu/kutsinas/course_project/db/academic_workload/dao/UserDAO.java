@@ -16,7 +16,6 @@ public class UserDAO {
         }
     }
 
-
     public String getUserRole(Connection conn) {
         String query = "SELECT CASE " +
                 "WHEN IS_MEMBER('TeacherRole') = 1 THEN 'teacher' " +
@@ -37,5 +36,33 @@ public class UserDAO {
         return null;
     }
 
+    public int getUserId(Connection conn) {
+        String query = "SELECT id FROM Users WHERE username = CURRENT_USER";
 
+        try (PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getDepartmentId(Connection conn) {
+        String query = "SELECT department_id FROM Users WHERE username = CURRENT_USER";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt("department_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

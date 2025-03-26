@@ -1,11 +1,13 @@
 package kz.kstu.kutsinas.course_project.db.academic_workload.controllers;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
+import kz.kstu.kutsinas.course_project.db.academic_workload.service.Executioner;
 import kz.kstu.kutsinas.course_project.db.academic_workload.utils.ViewLoader;
+
+import java.util.List;
+import java.util.Map;
 
 public class TeacherController {
     @FXML
@@ -14,6 +16,8 @@ public class TeacherController {
     private Button logoutButton;
     @FXML
     private TreeView<String> actionsList;
+    @FXML
+    private TableView tableView;
 
     public void initialize(){
         TreeItem<String> root= new TreeItem<>("Доступные действия:");
@@ -34,8 +38,47 @@ public class TeacherController {
     }
     @FXML
     protected void onActionSelected(){
+        TreeItem<String> selectedItem = actionsList.getSelectionModel().getSelectedItem();
+        if (selectedItem == null) return;
 
+        String selectedAction = selectedItem.getValue();
+        System.out.println("Выбрано: " + selectedAction);
+
+
+        String query = switch (selectedAction) {
+            case "Доступные виды нагрузки" -> "SELECT * FROM TypesOfAcademicWorkload";
+            case "Данные преподавателя" -> "SELECT * FROM Teachers";
+            case "Нагрузка" -> "SELECT * FROM AcademicWorkload";
+            case "Дисциплины" -> "SELECT * FROM Discipline";
+            case "Группы" -> "SELECT * FROM AcademicGroup";
+            case "Кафедры" -> "SELECT * FROM Department";
+            case "Должности" -> "SELECT * FROM JobTitle";
+            case "Допустимые виды нагрузки" -> "SELECT * FROM AvailableTypeOfWorkload";
+            default -> null;
+        };
+
+        if (query != null) {
+            List<Map<String, Object>> result = Executioner.executeQuery(query);
+            updateTableView(result);
+        }
     }
+
+    private void updateTableView(List<Map<String, Object>> data) {
+        tableView.getItems().clear();
+        tableView.getColumns().clear();
+
+        if (data.isEmpty()) return;
+        Map<String, Object> firstRow = data.get(0);
+        for (String columnName : firstRow.keySet()) {
+            TableColumn<Map<String, Object>, String> column = new TableColumn<>(columnName);
+            column.setCellValueFactory(cellData ->
+                    new SimpleStringProperty(cellData.getValue().get(columnName).toString()));
+            tableView.getColumns().add(column);
+        }
+
+        tableView.getItems().addAll(data);
+    }
+
     @FXML
     protected void onLogoutButtonClick(){
         ViewLoader.loadStage("logout-view.fxml","Подтверждение выхода");

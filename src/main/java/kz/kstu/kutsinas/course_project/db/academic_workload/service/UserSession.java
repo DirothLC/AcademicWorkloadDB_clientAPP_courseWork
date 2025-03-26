@@ -8,6 +8,8 @@ public class UserSession {
     private Connection connection;
     private String username;
     private String role;
+    private int userId;
+    private int departmentId;
 
     private UserSession() {
     }
@@ -19,11 +21,21 @@ public class UserSession {
         return instance;
     }
 
-    public void setUser(Connection connection, String username, String role) {
+
+    public void setUser(Connection connection, String username, String role, int userId, int departmentId) {
         this.connection = connection;
         this.username = username;
         this.role = role;
+        this.userId = userId;
+        this.departmentId = departmentId;
     }
+    public void setUser(Connection connection, String username, String role, int userId) {
+        this.connection = connection;
+        this.username = username;
+        this.role = role;
+        this.userId = userId;
+    }
+
 
     public Connection getConnection() {
         return connection;
@@ -35,6 +47,14 @@ public class UserSession {
 
     public String getRole() {
         return role;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public int getDepartmentId() {
+        return departmentId;
     }
 
     public void logout() {
@@ -49,6 +69,8 @@ public class UserSession {
             connection = null;
             username = null;
             role = null;
+            userId = 0;
+            departmentId = 0;
             instance = null;
         }
     }
