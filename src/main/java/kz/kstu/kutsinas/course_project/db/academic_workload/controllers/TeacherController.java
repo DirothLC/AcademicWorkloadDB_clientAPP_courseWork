@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import kz.kstu.kutsinas.course_project.db.academic_workload.service.Executioner;
+import kz.kstu.kutsinas.course_project.db.academic_workload.service.UserSession;
 import kz.kstu.kutsinas.course_project.db.academic_workload.utils.ViewLoader;
 
 import java.util.List;
@@ -44,11 +45,13 @@ public class TeacherController {
         String selectedAction = selectedItem.getValue();
         System.out.println("Выбрано: " + selectedAction);
 
+        UserSession sessionContext = UserSession.getInstance();
+        int id= sessionContext.getUserId();
 
         String query = switch (selectedAction) {
             case "Доступные виды нагрузки" -> "SELECT * FROM TypesOfAcademicWorkload";
-            case "Данные преподавателя" -> "SELECT * FROM Teachers";
-            case "Нагрузка" -> "SELECT * FROM AcademicWorkload";
+            case "Данные преподавателя" -> "SELECT * FROM Teachers WHERE id = " + id;
+            case "Нагрузка" -> "SELECT * FROM AcademicWorkload WHERE teacherID = " + id;
             case "Дисциплины" -> "SELECT * FROM Discipline";
             case "Группы" -> "SELECT * FROM AcademicGroup";
             case "Кафедры" -> "SELECT * FROM Department";

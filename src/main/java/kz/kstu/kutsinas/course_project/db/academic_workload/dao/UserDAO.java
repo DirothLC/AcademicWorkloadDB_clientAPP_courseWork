@@ -36,14 +36,15 @@ public class UserDAO {
         return null;
     }
 
-    public int getUserId(Connection conn) {
-        String query = "SELECT id FROM Users WHERE username = CURRENT_USER";
+    public int getUserId(Connection conn, String login) {
+        String query = "SELECT id FROM Users WHERE login = ?";
 
-        try (PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-
-            if (rs.next()) {
-                return rs.getInt("id");
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, login);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id");
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,14 +52,15 @@ public class UserDAO {
         return 0;
     }
 
-    public int getDepartmentId(Connection conn) {
-        String query = "SELECT department_id FROM Users WHERE username = CURRENT_USER";
+    public int getDepartmentId(Connection conn, String login) {
+        String query = "SELECT department_id FROM Users WHERE login = ?";
 
-        try (PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-
-            if (rs.next()) {
-                return rs.getInt("department_id");
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, login);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("department_id");
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

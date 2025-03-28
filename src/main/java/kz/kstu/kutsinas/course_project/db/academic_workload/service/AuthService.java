@@ -16,19 +16,19 @@ public class AuthService {
         Connection conn = userDao.authenticateUser(login, password);
         if (conn != null) {
             String role = userDao.getUserRole(conn);
-            int userId = userDao.getUserId(conn);
+            int userId = userDao.getUserId(conn, login);
             int departmentId;
             if ("responsibleForWorkload".equals(role)) {
-                departmentId = userDao.getDepartmentId(conn);
+                departmentId = userDao.getDepartmentId(conn, login);
 
                 System.out.println("Соединение с БД прошло успешно, ваша роль: " + role);
-
+                System.out.println(userId+", " + departmentId);
                 UserSession.getInstance().setUser(conn, login, role, userId, departmentId);
                 return true;
 
             } else if (role != null) {
                 System.out.println("Соединение с БД прошло успешно, ваша роль: " + role);
-
+                System.out.println(userId);
                 UserSession.getInstance().setUser(conn, login, role, userId);
                 return true;
             }
