@@ -20,8 +20,13 @@ public class ResponsibleForWorkloadController {
 
     @FXML
     private Button logoutButton;
+
+    @FXML
+    private TextField idField;
+
     @FXML
     private TreeView<String> actionsList;
+
     @FXML
     private TableView tableView;
 

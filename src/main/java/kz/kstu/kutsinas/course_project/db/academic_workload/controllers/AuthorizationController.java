@@ -7,12 +7,13 @@ import kz.kstu.kutsinas.course_project.db.academic_workload.service.AuthService;
 import kz.kstu.kutsinas.course_project.db.academic_workload.service.UserSession;
 import kz.kstu.kutsinas.course_project.db.academic_workload.utils.Reporter;
 import kz.kstu.kutsinas.course_project.db.academic_workload.utils.ViewLoader;
+import org.controlsfx.control.textfield.CustomPasswordField;
 
 public class AuthorizationController {
     @FXML
     private TextField loginField;
     @FXML
-    private TextField passwordField;
+    private CustomPasswordField passwordField;
     @FXML
     private Button loginButton;
 
