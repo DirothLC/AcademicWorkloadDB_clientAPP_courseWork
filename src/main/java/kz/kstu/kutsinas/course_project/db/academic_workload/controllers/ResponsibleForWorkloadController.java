@@ -3,6 +3,8 @@ package kz.kstu.kutsinas.course_project.db.academic_workload.controllers;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import kz.kstu.kutsinas.course_project.db.academic_workload.service.Executioner;
+import kz.kstu.kutsinas.course_project.db.academic_workload.service.UserSession;
 import kz.kstu.kutsinas.course_project.db.academic_workload.utils.ViewLoader;
 
 import java.util.List;
@@ -67,7 +69,48 @@ public class ResponsibleForWorkloadController {
     }
 
     @FXML
-    public void onActionSelected(){}
+    public void onActionSelected(){
+        TreeItem<String> selectedItem = actionsList.getSelectionModel().getSelectedItem();
+        if (selectedItem == null) return;
+
+        String selectedAction = selectedItem.getValue();
+        System.out.println("Выбрано: " + selectedAction);
+
+        UserSession sessionContext = UserSession.getInstance();
+        int id= sessionContext.getUserId();
+        int departmentId= sessionContext.getDepartmentId();
+
+       String query= switch (selectedAction){
+            case "Доступные виды нагрузки" -> "SELECT * FROM TypesOfAcademicWorkload";
+            case "Список преподавателей кафедры" -> "SELECT * FROM Teachers WHERE departmentID = " + departmentId;
+           case "Нагрузка кафедры" -> """
+             SELECT aw.*
+             FROM AcademicWorkload aw
+             JOIN AcademicGroup ag ON aw.groupID = ag.groupID
+             WHERE ag.departmentID = """ + departmentId;
+            case "Дисциплины" -> "SELECT * FROM Discipline";
+            case "Группы кафедры" -> "SELECT * FROM AcademicGroup WHERE departmentID = " + departmentId;
+            case "Кафедры" -> "SELECT * FROM Department";
+            case "Должности" -> "SELECT * FROM JobTitle";
+            case "Допустимые виды нагрузки" -> "SELECT * FROM AvailableTypeOfWorkload";
+            case "Норматив" -> "SELECT * FROM Normative";
+
+            case "Нагрузка преподавателей кафедры" -> "CALL getTeachersWorkloadByDepartment(" + departmentId + ")";
+            case "Список дисциплин на семестр по группам кафедры" -> "CALL getDisciplineListOnSemesterOnGroupByDepartment(" + departmentId + ")";
+            case "Список дипломных руководителей по кафедре" -> "SELECT * FROM Дипломные_руководители WHERE departmentID = " + departmentId;
+
+            case "Преподаватели с половинной ставкой по кафедре" -> "CALL getHalfRateTeachersByDepartment(" + departmentId + ")";
+            case "Группы с количеством студентов более 20 по кафедре" -> "CALL getGroupMoreThan20Poked(" + departmentId + ")";
+            default -> null;
+        };
+
+        if (query != null) {
+            List<Map<String, Object>> result = Executioner.executeQuery(query);
+            updateTableView(result);
+        }
+
+
+    }
 
     @FXML
     public void onSelectButtonSelected(){
