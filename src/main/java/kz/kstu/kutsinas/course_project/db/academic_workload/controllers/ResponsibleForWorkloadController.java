@@ -25,9 +25,6 @@ public class ResponsibleForWorkloadController  {
     private Button logoutButton;
 
     @FXML
-    private TextField idField;
-
-    @FXML
     private TreeView<String> actionsList;
 
     @FXML

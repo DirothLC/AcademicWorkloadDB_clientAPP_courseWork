@@ -3,23 +3,21 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="558.0" prefWidth="796.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kz.kstu.kutsinas.course_project.db.academic_workload.controllers.ResponsibleForWorkloadController">
+<AnchorPane prefHeight="657.0" prefWidth="907.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kz.kstu.kutsinas.course_project.db.academic_workload.controllers.ResponsibleForWorkloadController">
     <children>
-        <TreeView fx:id="actionsList" layoutX="14.0" layoutY="14.0" onMouseClicked="#onActionSelected" prefHeight="547.0" prefWidth="287.0" />
-        <Button fx:id="logoutButton" layoutX="740.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLogoutButtonClick" text="Выйти" textFill="#ef0202" />
-        <RadioButton fx:id="viewButton" layoutX="325.0" layoutY="18.0" mnemonicParsing="false" onAction="#onSelectButtonSelected" selected="true" text="Выбор">
+        <TreeView fx:id="actionsList" layoutX="14.0" layoutY="14.0" onMouseClicked="#onActionSelected" prefHeight="632.0" prefWidth="367.0" />
+        <Button fx:id="logoutButton" layoutX="842.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLogoutButtonClick" text="Выйти" textFill="#ef0202" />
+        <RadioButton fx:id="viewButton" layoutX="394.0" layoutY="18.0" mnemonicParsing="false" onAction="#onSelectButtonSelected" selected="true" text="Просмотр">
          <toggleGroup>
             <ToggleGroup fx:id="Actions" />
          </toggleGroup></RadioButton>
-      <RadioButton fx:id="insertButton" layoutX="398.0" layoutY="18.0" mnemonicParsing="false" onAction="#onInsertButtonSelected" text="Вставить" toggleGroup="$Actions" />
-        <TableView fx:id="tableView" layoutX="309.0" layoutY="122.0" prefHeight="438.0" prefWidth="482.0" tableMenuButtonVisible="true" />
-      <RadioButton fx:id="updateButton" layoutX="474.0" layoutY="18.0" mnemonicParsing="false" onAction="#onUpdateButtonSelected" text="Изменить" toggleGroup="$Actions" />
-      <RadioButton fx:id="deleteButton" layoutX="566.0" layoutY="18.0" mnemonicParsing="false" onAction="#onDeleteButtonSelected" text="Удалить" toggleGroup="$Actions" />
-      <TextField fx:id="idField" layoutX="309.0" layoutY="82.0" promptText="id" />
+      <RadioButton fx:id="insertButton" layoutX="486.0" layoutY="18.0" mnemonicParsing="false" onAction="#onInsertButtonSelected" text="Вставить" toggleGroup="$Actions" />
+        <TableView fx:id="tableView" layoutX="394.0" layoutY="101.0" prefHeight="546.0" prefWidth="500.0" tableMenuButtonVisible="true" />
+      <RadioButton fx:id="updateButton" layoutX="568.0" layoutY="18.0" mnemonicParsing="false" onAction="#onUpdateButtonSelected" text="Изменить" toggleGroup="$Actions" />
+      <RadioButton fx:id="deleteButton" layoutX="659.0" layoutY="18.0" mnemonicParsing="false" onAction="#onDeleteButtonSelected" text="Удалить" toggleGroup="$Actions" />
     </children>
 </AnchorPane>
