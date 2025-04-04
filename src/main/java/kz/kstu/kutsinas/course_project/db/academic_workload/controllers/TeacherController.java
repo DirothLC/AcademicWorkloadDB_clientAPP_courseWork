@@ -3,6 +3,7 @@ package kz.kstu.kutsinas.course_project.db.academic_workload.controllers;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import kz.kstu.kutsinas.course_project.db.academic_workload.dao.TeacherDAO;
 import kz.kstu.kutsinas.course_project.db.academic_workload.service.Executioner;
 import kz.kstu.kutsinas.course_project.db.academic_workload.service.UserSession;
 import kz.kstu.kutsinas.course_project.db.academic_workload.utils.ViewLoader;
@@ -19,6 +20,8 @@ public class TeacherController {
     private TreeView<String> actionsList;
     @FXML
     private TableView tableView;
+
+    private final TeacherDAO DAO= new TeacherDAO();
 
     public void initialize(){
         TreeItem<String> root= new TreeItem<>("Доступные действия:");
@@ -48,17 +51,7 @@ public class TeacherController {
         UserSession sessionContext = UserSession.getInstance();
         int id= sessionContext.getUserId();
 
-        String query = switch (selectedAction) {
-            case "Доступные виды нагрузки" -> "SELECT * FROM TypesOfAcademicWorkload";
-            case "Данные преподавателя" -> "SELECT * FROM Teachers WHERE id = " + id;
-            case "Нагрузка" -> "SELECT * FROM AcademicWorkload WHERE teacherID = " + id;
-            case "Дисциплины" -> "SELECT * FROM Discipline";
-            case "Группы" -> "SELECT * FROM AcademicGroup";
-            case "Кафедры" -> "SELECT * FROM Department";
-            case "Должности" -> "SELECT * FROM JobTitle";
-            case "Допустимые виды нагрузки" -> "SELECT * FROM AvailableTypeOfWorkload";
-            default -> null;
-        };
+        String query = DAO.querySelector(selectedAction, id);
 
         if (query != null) {
             List<Map<String, Object>> result = Executioner.executeQuery(query);
