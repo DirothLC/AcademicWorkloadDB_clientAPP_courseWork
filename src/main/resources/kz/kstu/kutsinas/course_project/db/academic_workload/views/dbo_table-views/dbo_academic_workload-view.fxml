@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="226.0" prefWidth="554.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kz.kstu.kutsinas.course_project.db.academic_workload.controllers.dbo_tables_controllers.AcademicWorkloadController">
+   <children>
+      <TextField fx:id="periodField" layoutX="27.0" layoutY="21.0" prefHeight="26.0" prefWidth="234.0" promptText="Период" />
+      <TextField fx:id="teacherField" layoutX="28.0" layoutY="62.0" prefHeight="26.0" prefWidth="234.0" promptText="ID преподавателя" />
+      <TextField fx:id="typeOfWorkloadField" layoutX="28.0" layoutY="100.0" prefHeight="26.0" prefWidth="234.0" promptText="ID вида учебной нагрузки" />
+      <TextField fx:id="hoursCountField" layoutX="294.0" layoutY="21.0" prefHeight="26.0" prefWidth="234.0" promptText="Количество часов" />
+      <TextField fx:id="disciplineField" layoutX="295.0" layoutY="62.0" prefHeight="26.0" prefWidth="234.0" promptText="ID дисциплины" />
+      <TextField fx:id="groupField" layoutX="295.0" layoutY="101.0" prefHeight="26.0" prefWidth="234.0" promptText="ID группы" />
+      <Button layoutX="238.0" layoutY="161.0" mnemonicParsing="false" onAction="#onDoneButtonClick" text="Выполнить" />
+   </children>
+</AnchorPane>

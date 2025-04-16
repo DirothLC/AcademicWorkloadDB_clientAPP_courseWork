@@ -33,6 +33,8 @@ public class ResponsibleForWorkloadController  {
     private final ResponsibleForWorkloadDAO DAO= new ResponsibleForWorkloadDAO();
 
     public void initialize(){
+        tableView.setEditable(true);
+
         TreeItem<String> tableRoot= new TreeItem<>("Доступные таблицы:");
         TreeItem<String> viewsRoot= new TreeItem<>("Доступные представления:");
         TreeItem<String> proceduresRoot= new TreeItem<>("Доступные хранимые процедуры:");
@@ -88,31 +90,35 @@ public class ResponsibleForWorkloadController  {
         int departmentId = sessionContext.getDepartmentId();
 
         String query = DAO.querySelector(action, departmentId);
-        List<Map<String, Object>> result = Executioner.executeQuery(query);
-        updateTableView(result);
-
+        if(viewButton.isSelected()) {
+            tableView.setEditable(true);
+            List<Map<String, Object>> result = Executioner.executeQuery(query);
+            updateTableView(result);
+        }
 
 
     }
 
     @FXML
     public void onSelectButtonSelected(){
+       // tableView.setEditable(false);
 
     }
 
     @FXML
     public void onInsertButtonSelected(){
+        tableView.setEditable(true);
 
     }
 
     @FXML
     public void onUpdateButtonSelected(){
-
+        tableView.setEditable(true);
     }
 
     @FXML
     public void onDeleteButtonSelected(){
-
+        tableView.setEditable(true);
     }
 
     private void updateTableView(List<Map<String, Object>> data) {
