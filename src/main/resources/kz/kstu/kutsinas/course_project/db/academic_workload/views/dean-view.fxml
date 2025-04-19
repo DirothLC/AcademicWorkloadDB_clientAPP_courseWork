@@ -10,5 +10,12 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="kz.kstu.kutsinas.course_project.db.academic_workload.controllers.DeanController"
             prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <TreeView fx:id="actionsList" layoutX="14.0" layoutY="14.0" onMouseClicked="#onActionSelected" prefHeight="632.0" prefWidth="367.0" />
+        <Button fx:id="logoutButton" layoutX="842.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLogoutButtonClick" text="Выйти" textFill="#ef0202" />
+        <TableView fx:id="tableView" layoutX="394.0" layoutY="67.0" prefHeight="580.0" prefWidth="500.0" tableMenuButtonVisible="true" />
+        <Button fx:id="addButton" layoutX="394.0" layoutY="40.0" mnemonicParsing="false" onAction="#onAddButtonClick" text="+" />
+        <Button fx:id="saveButton" layoutX="419.0" layoutY="40.0" mnemonicParsing="false" onAction="#onSaveButtonClick" text="Сохранить" />
+    </children>
 
 </AnchorPane>
