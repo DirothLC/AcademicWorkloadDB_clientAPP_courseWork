@@ -1,13 +1,19 @@
 package kz.kstu.kutsinas.course_project.db.academic_workload.dao;
 
+import kz.kstu.kutsinas.course_project.db.academic_workload.service.UserSession;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Properties;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.*;
 
 public class ResponsibleForWorkloadDAO {
     private Properties queries;
+    private String currentTable = "";
 
     public ResponsibleForWorkloadDAO() {
         queries = new Properties();
@@ -35,7 +41,129 @@ public class ResponsibleForWorkloadDAO {
             return null;
         }
     }
+
+    public void extractTableNameFromKey(String key) {
+        key = key.replaceAll("[UID]$", "");
+        String tableName = queryToTableNameMap.get(key);
+        if (tableName != null) {
+            currentTable = tableName;
+        } else {
+            System.err.println("Не удалось определить имя таблицы для ключа: " + key);
+        }
+    }
+
+    public String getCurrentTable() {
+        return currentTable;
+    }
+
+    public String getPrimaryKey(String tableName) {
+        switch (tableName.toLowerCase()) {
+            case "teachers":
+                return "id";
+            case "academicworkload":
+                return "teacherID"; // или workloadID
+            case "discipline":
+                return "ID";
+            case "academicgroup":
+                return "groupID";
+            case "department":
+                return "ID";
+            case "jobtitle":
+                return "ID";
+            case "typesofacademicworkload":
+                return "code";
+            case "availabletypeofworkload":
+                return "availableTypeID";
+            case "normative":
+                return "rate";
+            default:
+                return "id";
+        }
+    }
+
+    private static final Map<String, String> queryToTableNameMap = new HashMap<>();
+
+    static {
+        queryToTableNameMap.put("Доступные виды нагрузки", "TypesOfAcademicWorkload");
+        queryToTableNameMap.put("Список преподавателей кафедры", "Teachers");
+        queryToTableNameMap.put("Нагрузка кафедры", "AcademicWorkload");
+        queryToTableNameMap.put("Дисциплины", "Discipline");
+        queryToTableNameMap.put("Группы кафедры", "AcademicGroup");
+        queryToTableNameMap.put("Кафедры", "Department");
+        queryToTableNameMap.put("Должности", "JobTitle");
+        queryToTableNameMap.put("Допустимые виды нагрузки", "AvailableTypeOfWorkload");
+        queryToTableNameMap.put("Норматив", "Normative");
+    }
+
+    public void updateRow(String tableName, Map<String, Object> row) throws SQLException {
+        String primaryKey = getPrimaryKey(tableName);
+        Object pkValue = row.get(primaryKey);
+
+        StringBuilder sql = new StringBuilder("UPDATE " + tableName + " SET ");
+        List<Object> values = new ArrayList<>();
+
+        for (String key : row.keySet()) {
+            if (!key.equals(primaryKey)) {
+                sql.append(key).append(" = ?, ");
+                values.add(row.get(key));
+            }
+        }
+
+        sql.setLength(sql.length() - 2);
+        sql.append(" WHERE ").append(primaryKey).append(" = ?");
+        values.add(pkValue);
+
+        Connection conn = UserSession.getInstance().getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql.toString());
+
+        for (int i = 0; i < values.size(); i++) {
+            stmt.setObject(i + 1, values.get(i));
+        }
+
+        stmt.executeUpdate();
+        stmt.close();
+    }
+
+
+    public void deleteRow(String tableName, Map<String, Object> row) throws SQLException {
+        String primaryKey = getPrimaryKey(tableName);
+        Object pkValue = row.get(primaryKey);
+
+        String sql = "DELETE FROM " + tableName + " WHERE " + primaryKey + " = ?";
+
+        Connection conn = UserSession.getInstance().getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setObject(1, pkValue);
+
+        stmt.executeUpdate();
+        stmt.close();
+    }
+    public void insertRow(String tableName, Map<String, Object> row) throws SQLException {
+        StringJoiner columns = new StringJoiner(", ");
+        StringJoiner placeholders = new StringJoiner(", ");
+        List<Object> values = new ArrayList<>();
+
+        for (String key : row.keySet()) {
+            columns.add(key);
+            placeholders.add("?");
+            values.add(row.get(key));
+        }
+
+        String sql = "INSERT INTO " + tableName + " (" + columns + ") VALUES (" + placeholders + ")";
+
+        Connection conn = UserSession.getInstance().getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql);
+
+        for (int i = 0; i < values.size(); i++) {
+            stmt.setObject(i + 1, values.get(i));
+        }
+
+        stmt.executeUpdate();
+        stmt.close();
+    }
+
 }
+
 
 
 
