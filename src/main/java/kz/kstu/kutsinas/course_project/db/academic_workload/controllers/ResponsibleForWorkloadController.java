@@ -114,14 +114,7 @@ public class ResponsibleForWorkloadController  {
 
         for (Map<String, Object> row : items) {
             try {
-                String primaryKey = DAO.getPrimaryKey(tableName);
-                if (row.get(primaryKey) == null || row.get(primaryKey).toString().isEmpty()) {
-                    System.out.println("Попытка вставить строку: " + row);
-                    DAO.insertRow(tableName, row);
-                } else {
-                    System.out.println("Попытка вставить строку: " + row);
-                    DAO.updateRow(tableName, row);
-                }
+                DAO.insertRow(tableName, row);
             } catch (SQLException e) {
                 Reporter.alertErrorReporting("Ошибка при сохранении строки: " , e.getMessage());
                 e.printStackTrace();
@@ -155,6 +148,7 @@ public class ResponsibleForWorkloadController  {
                 String newValue = event.getNewValue();
                 row.put(columnName, newValue);
                 updateRowInDatabase(tableName,row);
+                System.out.println("Строка изменена:" + row);
             });
 
             tableView.getColumns().add(column);
@@ -170,6 +164,7 @@ public class ResponsibleForWorkloadController  {
                 if (item != null) {
                     deleteRowFromDatabase(tableName,item);
                     tableView.getItems().remove(item);
+                    System.out.println("Строка удалена:" + item);
                 }
             });
             menu.getItems().addAll(deleteItem);
@@ -196,16 +191,6 @@ public class ResponsibleForWorkloadController  {
             Reporter.alertErrorReporting("Ошибка при удалении строки", e.getMessage());
         }
     }
-
-    private void insertRowIntoDatabase(String tableName, Map<String, Object> row) {
-        try {
-            DAO.insertRow(tableName, row);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Reporter.alertErrorReporting("Ошибка при вставке строки", e.getMessage());
-        }
-    }
-
 
 
     @FXML

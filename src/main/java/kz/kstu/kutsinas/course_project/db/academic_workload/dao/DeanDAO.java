@@ -84,10 +84,10 @@ public class DeanDAO {
 
     static {
         queryToTableNameMap.put("Доступные виды нагрузки", "TypesOfAcademicWorkload");
-        queryToTableNameMap.put("Список преподавателей кафедры", "Teachers");
-        queryToTableNameMap.put("Нагрузка кафедры", "AcademicWorkload");
+        queryToTableNameMap.put("Список преподавателей", "Teachers");
+        queryToTableNameMap.put("Нагрузка", "AcademicWorkload");
         queryToTableNameMap.put("Дисциплины", "Discipline");
-        queryToTableNameMap.put("Группы кафедры", "AcademicGroup");
+        queryToTableNameMap.put("Группы", "AcademicGroup");
         queryToTableNameMap.put("Кафедры", "Department");
         queryToTableNameMap.put("Должности", "JobTitle");
         queryToTableNameMap.put("Допустимые виды нагрузки", "AvailableTypeOfWorkload");
@@ -157,7 +157,12 @@ public class DeanDAO {
             stmt.setObject(i + 1, values.get(i));
         }
 
-        stmt.executeUpdate();
+        try {
+            stmt.executeUpdate();
+            System.out.println("Успешно вставлено: " + row);
+        } catch (SQLException e) {
+            System.err.println("Строка не вставленная, так как поле с таким же PK уже имеется" );
+        }
         stmt.close();
     }
 

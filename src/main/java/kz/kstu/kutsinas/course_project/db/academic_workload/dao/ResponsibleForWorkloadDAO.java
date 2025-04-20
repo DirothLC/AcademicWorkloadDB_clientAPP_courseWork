@@ -157,8 +157,12 @@ public class ResponsibleForWorkloadDAO {
         for (int i = 0; i < values.size(); i++) {
             stmt.setObject(i + 1, values.get(i));
         }
-
-        stmt.executeUpdate();
+        try {
+            stmt.executeUpdate();
+            System.out.println("Успешно вставлено: " + row);
+        } catch (SQLException e) {
+            System.err.println("Строка не вставленная, так как поле с таким же PK уже имеется" );
+        }
         stmt.close();
     }
 
