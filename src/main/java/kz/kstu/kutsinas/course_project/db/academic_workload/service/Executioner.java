@@ -1,5 +1,7 @@
 package kz.kstu.kutsinas.course_project.db.academic_workload.service;
 
+import kz.kstu.kutsinas.course_project.db.academic_workload.utils.Reporter;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +32,7 @@ public class Executioner {
                 resultList.add(row);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Reporter.alertErrorReporting("Ошибка выполнения запроса: " , e.getMessage());
         }
         return resultList;
     }

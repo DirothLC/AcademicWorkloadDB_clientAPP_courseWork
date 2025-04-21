@@ -23,7 +23,7 @@ public class AdministratorController {
 
     @FXML
     private void onCreateUserButtonClick(){
-    ViewLoader.loadStage("administrator_functions_views/backup-view.fxml","Управление пользователями");
+    ViewLoader.loadStage("administrator_functions_views/usercontrol-view.fxml","Управление пользователями");
     }
 
     @FXML

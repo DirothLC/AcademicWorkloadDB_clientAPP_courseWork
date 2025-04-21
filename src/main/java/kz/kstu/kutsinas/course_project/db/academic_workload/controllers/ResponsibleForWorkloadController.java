@@ -25,14 +25,20 @@ public class ResponsibleForWorkloadController  {
     @FXML
     private TableView tableView;
 
+    @FXML
+    private TextField dataField;
+
     private final ResponsibleForWorkloadDAO DAO= new ResponsibleForWorkloadDAO();
 
     public void initialize(){
         tableView.setEditable(true);
 
         TreeItem<String> tableRoot= new TreeItem<>("Доступные таблицы:");
+        TreeItem<String> queriesRoot = new TreeItem<>("Доступные запросы:");
         TreeItem<String> viewsRoot= new TreeItem<>("Доступные представления:");
         TreeItem<String> proceduresRoot= new TreeItem<>("Доступные хранимые процедуры:");
+
+
 
         TreeItem<String> typesOfAcademicWorkload= new TreeItem<>("Доступные виды нагрузки");
         TreeItem<String> teachers= new TreeItem<>("Список преподавателей кафедры");
@@ -47,11 +53,22 @@ public class ResponsibleForWorkloadController  {
         tableRoot.getChildren().addAll(typesOfAcademicWorkload,teachers,academicWorkload,discipline,academicGroup,department,jobTitle,availableTypeOfWorkload,normative);
         tableRoot.setExpanded(true);
 
+
+        TreeItem<String> workloadTypesByFirstTeacher = new TreeItem<>("Список видов учебных нагрузок I-го преподавателя");
+        TreeItem<String> totalHoursAutumnByDepartment = new TreeItem<>("Суммарное количество часов нагрузки преподавателей I-той кафедры, запланированное на осень");
+        TreeItem<String> springDisciplinesContaining = new TreeItem<>("Список дисциплин, запланированных весной в наименовании которых встречается слово...");
+        TreeItem<String> plannedHoursByRate = new TreeItem<>("Вычислить плановое количество часов нагрузки для всех преподавателей, исходя из размера ставки");
+        TreeItem<String> associateProfessorsCountByDepartment = new TreeItem<>("Сколько доцентов работает на I-той кафедре");
+
+        queriesRoot.getChildren().addAll(workloadTypesByFirstTeacher,totalHoursAutumnByDepartment,springDisciplinesContaining,plannedHoursByRate,associateProfessorsCountByDepartment);
+
+
         TreeItem<String> teachersWorkloadByDepartment= new TreeItem<>("Нагрузка преподавателей кафедры");
         TreeItem<String> disciplineListOnSemesterOnGroupByDepartment= new TreeItem<>("Список дисциплин на семестр по группам кафедры");
         TreeItem<String> diplomaLeaderListByDepartment= new TreeItem<>("Список дипломных руководителей по кафедре");
 
         viewsRoot.getChildren().addAll(teachersWorkloadByDepartment,disciplineListOnSemesterOnGroupByDepartment,diplomaLeaderListByDepartment);
+
 
         TreeItem<String> halfRateTeachersByDepartment= new TreeItem<>("Преподаватели с половинной ставкой по кафедре");
         TreeItem<String> groupMoreThan20Poked= new TreeItem<>("Группы с количеством студентов более 20 по кафедре");
@@ -59,7 +76,7 @@ public class ResponsibleForWorkloadController  {
         proceduresRoot.getChildren().addAll(halfRateTeachersByDepartment,groupMoreThan20Poked);
 
         TreeItem<String> root= new TreeItem<>("Доступные действия:");
-        root.getChildren().addAll(tableRoot,viewsRoot,proceduresRoot);
+        root.getChildren().addAll(tableRoot,queriesRoot,viewsRoot,proceduresRoot);
         root.setExpanded(true);
 
         actionsList.setRoot(root);
@@ -84,10 +101,12 @@ public class ResponsibleForWorkloadController  {
         String query = DAO.querySelector(action, departmentId);
         DAO.extractTableNameFromKey(action);
         tableView.setEditable(true);
-        List<Map<String, Object>> result = Executioner.executeQuery(query);
-        updateTableView(result);
+        if(!dataField.getText().isEmpty()){
+            query = query.replace("{data}", dataField.getText());
+        }
 
-
+            List<Map<String, Object>> result = Executioner.executeQuery(query);
+            updateTableView(result);
 
     }
 

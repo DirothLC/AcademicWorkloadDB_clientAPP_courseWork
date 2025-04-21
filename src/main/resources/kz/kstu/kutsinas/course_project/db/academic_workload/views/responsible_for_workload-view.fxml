@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 
@@ -12,5 +13,6 @@
         <TableView fx:id="tableView" layoutX="394.0" layoutY="67.0" prefHeight="580.0" prefWidth="500.0" tableMenuButtonVisible="true" />
       <Button fx:id="addButton" layoutX="394.0" layoutY="40.0" mnemonicParsing="false" onAction="#onAddButtonClick" text="+" />
       <Button fx:id="saveButton" layoutX="419.0" layoutY="40.0" mnemonicParsing="false" onAction="#onSaveButtonClick" text="Сохранить" />
+      <TextField fx:id="dataField" layoutX="494.0" layoutY="40.0" promptText="Данные для поиска" />
     </children>
 </AnchorPane>
