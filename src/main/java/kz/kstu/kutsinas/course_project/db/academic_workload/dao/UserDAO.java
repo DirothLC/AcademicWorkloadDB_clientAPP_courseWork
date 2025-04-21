@@ -20,7 +20,7 @@ public class UserDAO {
         String query = "SELECT CASE " +
                 "WHEN IS_MEMBER('TeacherRole') = 1 THEN 'teacher' " +
                 "WHEN IS_MEMBER('DeanRole') = 1 THEN 'dean' " +
-                "WHEN IS_MEMBER('AdministratorRole') = 1 THEN 'administrator' " +
+                "WHEN IS_MEMBER('db_admin_role') = 1 THEN 'administrator' " +
                 "WHEN IS_MEMBER('ResponsibleForWorkloadRole') = 1 THEN 'responsibleForWorkload' " +
                 "ELSE 'unknown' END AS UserRole";
 

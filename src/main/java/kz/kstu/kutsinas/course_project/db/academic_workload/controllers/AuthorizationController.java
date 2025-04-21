@@ -45,7 +45,7 @@ public class AuthorizationController {
                     Reporter.alertConfirmReporting(authStatus,"Вы вошли в систему как Декан");
                     break;
                 case "administrator":
-                    ViewLoader.loadScene("admin-view.fxml", loginButton);
+                    ViewLoader.loadScene("administrator-view.fxml", loginButton);
                     Reporter.alertConfirmReporting(authStatus,"Вы вошли в систему как Администратор");
                     break;
                 case "responsibleForWorkload":
