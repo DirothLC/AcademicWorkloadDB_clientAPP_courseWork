@@ -7,7 +7,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kz.kstu.kutsinas.course_project.db.academic_workload.controllers.admin_functions_controllers.UserControlController">
    <children>
       <TableView fx:id="usersTable" layoutX="16.0" layoutY="115.0" prefHeight="269.0" prefWidth="572.0">
@@ -16,10 +15,12 @@
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
-      <TextField fx:id="loginField" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="380.0" promptText="Логин" />
-      <TextField fx:id="passwordField" layoutX="15.0" layoutY="47.0" prefHeight="26.0" prefWidth="380.0" promptText="Пароль" />
+      <TextField fx:id="loginField" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="286.0" promptText="Логин" />
+      <TextField fx:id="passwordField" layoutX="15.0" layoutY="47.0" prefHeight="26.0" prefWidth="286.0" promptText="Пароль" />
       <ComboBox fx:id="roleComboBox" layoutX="15.0" layoutY="79.0" prefHeight="26.0" prefWidth="184.0" promptText="Роль пользователя" />
       <Button layoutX="402.0" layoutY="14.0" mnemonicParsing="false" onAction="#onCreateUserButtonClick" prefHeight="26.0" prefWidth="184.0" text="Создать пользователя" />
       <Button layoutX="402.0" layoutY="47.0" mnemonicParsing="false" onAction="#onDisableUserButtonClick" text="Деактивировать пользователя" textFill="RED" />
+      <TextField fx:id="idField" layoutX="302.0" layoutY="14.0" prefHeight="26.0" prefWidth="96.0" promptText="ID" />
+      <TextField fx:id="departmentIdField" layoutX="302.0" layoutY="47.0" prefHeight="26.0" prefWidth="96.0" promptText="Код кафедры" />
    </children>
 </AnchorPane>
