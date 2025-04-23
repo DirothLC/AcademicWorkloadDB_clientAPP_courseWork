@@ -135,7 +135,7 @@ public class ResponsibleForWorkloadController  {
             try {
                 DAO.insertRow(tableName, row);
             } catch (SQLException e) {
-                Reporter.alertErrorReporting("Ошибка при сохранении строки: " , e.getMessage());
+                Reporter.alertErrorReporting("Ошибка при сохранении строки: ", "ошибка, неверные данные");
                 e.printStackTrace();
             }
         }

@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Stage;
 import kz.kstu.kutsinas.course_project.db.academic_workload.dao.DeanDAO;
 import kz.kstu.kutsinas.course_project.db.academic_workload.service.Executioner;
 import kz.kstu.kutsinas.course_project.db.academic_workload.service.UserSession;
@@ -145,6 +146,11 @@ public class DeanController {
         }
 
 
+    }
+
+    @FXML
+    private void onExportButtonClick(){
+        Reporter.exportTableViewToExcel(tableView,(Stage) tableView.getScene().getWindow());
     }
 
     private void updateTableView(List<Map<String, Object>> data) {

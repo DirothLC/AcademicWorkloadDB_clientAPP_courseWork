@@ -8,6 +8,7 @@ module kz.kstu.kutsinas.course_project.db.academic_workload.academicworkload_cou
 
     requires com.microsoft.sqlserver.jdbc;
     requires java.sql;
+    requires org.apache.poi.ooxml;
 
 
     exports kz.kstu.kutsinas.course_project.db.academic_workload.runner;
