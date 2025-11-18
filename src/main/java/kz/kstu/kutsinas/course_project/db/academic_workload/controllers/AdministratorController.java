@@ -2,11 +2,11 @@ package kz.kstu.kutsinas.course_project.db.academic_workload.controllers;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import kz.kstu.kutsinas.course_project.db.academic_workload.dao.AdministratorDAO;
 import kz.kstu.kutsinas.course_project.db.academic_workload.utils.ViewLoader;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -14,9 +14,24 @@ public class AdministratorController {
     @FXML
     private TableView auditTable;
 
+    @FXML
+    private ComboBox<String> searchParameter;
+    @FXML
+    private TextField searchField;
+    @FXML
+    private DatePicker startDate;
+    @FXML
+    private DatePicker endDate;
+
+
     protected final AdministratorDAO DAO = new AdministratorDAO();
 
     public void initialize(){
+        LoadLogTable();
+        searchParameter.getItems().addAll("id","message","log_level","user_login","source");
+    }
+
+    private void LoadLogTable(){
         List<Map<String, Object>> auditData = DAO.getAuditLogs();
         loadDataToTableView(auditTable, auditData);
     }
@@ -52,5 +67,28 @@ public class AdministratorController {
         }
 
         tableView.getItems().addAll(data);
+    }
+
+    @FXML
+    private void onSearchButtonClick() {
+        List<Map<String, Object>> logs;
+
+        String search = searchField.getText();
+        String parameter = searchParameter.getValue();
+        if (startDate.getValue() != null || endDate.getValue() != null) {
+            LocalDate start = startDate.getValue();
+            LocalDate end = endDate.getValue();
+            logs = DAO.searchLogsWithDate(parameter, search, start, end);
+            loadDataToTableView(auditTable, logs);
+            return;
+        }
+        logs = DAO.searchLogs(parameter, search);
+        loadDataToTableView(auditTable, logs);
+
+    }
+
+    @FXML
+    private void onResetButtonClick(){
+        LoadLogTable();
     }
 }

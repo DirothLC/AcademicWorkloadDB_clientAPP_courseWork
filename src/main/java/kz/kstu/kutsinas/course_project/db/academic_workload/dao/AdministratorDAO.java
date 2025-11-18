@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +20,8 @@ public class AdministratorDAO {
     public List<Map<String, Object>> getAuditLogs() {
         List<Map<String, Object>> auditLogs = new ArrayList<>();
         String query = "SELECT id, message, log_level, user_login, source, created_at FROM log_console ORDER BY created_at DESC";
-
-        try (Connection conn = UserSession.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query);
+        Connection conn = UserSession.getInstance().getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             ResultSetMetaData metaData = rs.getMetaData();
@@ -271,6 +271,78 @@ public class AdministratorDAO {
         return false;
     }
 
+    public List<Map<String, Object>> searchLogsWithDate(
+            String parameter, String searchValue, LocalDate startDate, LocalDate endDate) {
+
+        List<Map<String, Object>> logs = new ArrayList<>();
+
+        String query =
+                "SELECT id, message, log_level, user_login, source, created_at " +
+                        "FROM log_console " +
+                        "WHERE " + parameter + " LIKE ? " +
+                        "AND created_at BETWEEN ? AND ? " +
+                        "ORDER BY created_at DESC";
+        Connection conn = UserSession.getInstance().getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, "%" + searchValue + "%");
+            stmt.setTimestamp(2, Timestamp.valueOf(startDate.atStartOfDay()));
+            stmt.setTimestamp(3, Timestamp.valueOf(endDate.atTime(23, 59, 59)));
+
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData meta = rs.getMetaData();
+            int columns = meta.getColumnCount();
+
+            while (rs.next()) {
+                Map<String, Object> row = new HashMap<>();
+                for (int i = 1; i <= columns; i++) {
+                    row.put(meta.getColumnLabel(i), rs.getObject(i));
+                }
+                logs.add(row);
+            }
+
+        } catch (SQLException e) {
+            Reporter.alertErrorReporting("Ошибка","Ошибка поиска логов с датой ");
+            System.err.println("Ошибка поиска логов с датой: " + e.getMessage());
+        }
+
+        return logs;
+    }
 
 
+    public List<Map<String, Object>> searchLogs(
+            String parameter, String searchValue) {
+
+        List<Map<String, Object>> logs = new ArrayList<>();
+
+        String query =
+                "SELECT id, message, log_level, user_login, source, created_at " +
+                        "FROM log_console " +
+                        "WHERE " + parameter + " LIKE ? " +
+                        "ORDER BY created_at DESC";
+        Connection conn = UserSession.getInstance().getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, "%" + searchValue + "%");
+
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData meta = rs.getMetaData();
+            int columns = meta.getColumnCount();
+
+            while (rs.next()) {
+                Map<String, Object> row = new HashMap<>();
+                for (int i = 1; i <= columns; i++) {
+                    row.put(meta.getColumnLabel(i), rs.getObject(i));
+                }
+                logs.add(row);
+            }
+
+        } catch (SQLException e) {
+            Reporter.alertErrorReporting("Ошибка","Ошибка поиска логов ");
+
+            System.err.println("Ошибка поиска логов: " + e.getMessage());
+        }
+
+        return logs;
+    }
 }
