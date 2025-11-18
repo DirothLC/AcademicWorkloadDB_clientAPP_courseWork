@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import kz.kstu.kutsinas.course_project.db.academic_workload.service.AuthService;
 import kz.kstu.kutsinas.course_project.db.academic_workload.service.UserSession;
+import kz.kstu.kutsinas.course_project.db.academic_workload.utils.Logger;
 import kz.kstu.kutsinas.course_project.db.academic_workload.utils.Reporter;
 import kz.kstu.kutsinas.course_project.db.academic_workload.utils.ViewLoader;
 import org.controlsfx.control.textfield.CustomPasswordField;
@@ -35,6 +36,7 @@ public class AuthorizationController {
             String authStatus="Успешная авторизация!";
             String role = UserSession.getInstance().getRole();
             System.out.println(role);
+            Logger.info("Authorization in the system",UserSession.getInstance().getUsername(),"AuthorizationController");
             switch (role) {
                 case "teacher":
                     ViewLoader.loadScene("teacher-view.fxml", loginButton);

@@ -1,9 +1,13 @@
 package kz.kstu.kutsinas.course_project.db.academic_workload.dao;
 
 import kz.kstu.kutsinas.course_project.db.academic_workload.service.UserSession;
+import kz.kstu.kutsinas.course_project.db.academic_workload.utils.Logger;
 import kz.kstu.kutsinas.course_project.db.academic_workload.utils.Reporter;
 
-import java.io.File;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,15 +15,14 @@ import java.util.List;
 import java.util.Map;
 
 public class AdministratorDAO {
+
     public List<Map<String, Object>> getAuditLogs() {
         List<Map<String, Object>> auditLogs = new ArrayList<>();
-        String query = "SELECT event_time, action_id, succeeded, server_principal_name, database_name, statement " +
-                "FROM sys.fn_get_audit_file('C:\\AuditLogs\\*.sqlaudit', default, default)";
+        String query = "SELECT id, message, log_level, user_login, source, created_at FROM log_console ORDER BY created_at DESC";
 
-        try {
-            Connection conn = UserSession.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
+        try (Connection conn = UserSession.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
 
             ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
@@ -31,14 +34,15 @@ public class AdministratorDAO {
                 }
                 auditLogs.add(row);
             }
-            stmt.close();
-            rs.close();
+
         } catch (SQLException e) {
+            System.err.println("Ошибка при получении логов: " + e.getMessage());
             e.printStackTrace();
         }
 
         return auditLogs;
     }
+
 
     public void createDatabaseBackup(String folderPath, String fileName) {
         String backupFilePath = folderPath + File.separator + fileName + ".bak";
@@ -103,9 +107,11 @@ public class AdministratorDAO {
             }
             try (Statement stmt2 = connection.createStatement()) {
                 stmt2.executeUpdate(createUserSQL);
+
             }
             try (Statement stmt3 = connection.createStatement()) {
                 stmt3.executeUpdate(addToRoleSQL);
+
             }
             String insertLocalUser = "INSERT INTO users (login, role, id) VALUES (?, ?, ?)";
             try (PreparedStatement stmt4 = connection.prepareStatement(insertLocalUser)) {
@@ -113,6 +119,8 @@ public class AdministratorDAO {
                 stmt4.setString(2, role);
                 stmt4.setInt(3, linkedId);
                 stmt4.executeUpdate();
+                Logger.info("Administrator Created User Login: " + login, UserSession.getInstance().getUsername(), "AdministratorDAO");
+
             }
 
             connection.commit();
@@ -156,6 +164,8 @@ public class AdministratorDAO {
                 stmt4.setInt(3, linkedId);
                 stmt4.setInt(4, departmentId);
                 stmt4.executeUpdate();
+                Logger.info("Administrator Created User Login: " + login, UserSession.getInstance().getUsername(), "AdministratorDAO");
+
             }
 
             connection.commit();
@@ -207,11 +217,58 @@ public class AdministratorDAO {
 
             connection.commit();
             Reporter.alertConfirmReporting("Успех", "Пользователь успешно удалён: " + login);
+            Logger.info("Administrator Deleted User Login: " + login, UserSession.getInstance().getUsername(), "AdministratorDAO");
+
 
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
             Reporter.alertErrorReporting("Ошибка", "Не удалось удалить пользователя: " + e.getMessage());
         }
+    }
+
+    public boolean sendUserToServer(int id, String login, String password, String role, Integer departmentId) {
+        try {
+            URL url = new URL("http://localhost:8080/api/users");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setDoOutput(true);
+
+            String jsonBody;
+            if (departmentId != null) {
+                jsonBody = String.format(
+                        "{\"id\":%d,\"login\":\"%s\",\"password\":\"%s\",\"role\":\"%s\",\"departmentId\":%d}",
+                        id, login, password, role, departmentId
+                );
+            } else {
+                jsonBody = String.format(
+                        "{\"id\":%d,\"login\":\"%s\",\"password\":\"%s\",\"role\":\"%s\"}",
+                        id, login, password, role
+                );
+            }
+
+            try (OutputStream os = conn.getOutputStream()) {
+                os.write(jsonBody.getBytes(StandardCharsets.UTF_8));
+            }
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_CREATED || responseCode == HttpURLConnection.HTTP_OK) {
+                return true;
+            } else {
+                System.err.println("Ошибка при синхронизации пользователя с сервером: " + responseCode);
+                try (BufferedReader br = new BufferedReader(
+                        new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8))) {
+                    br.lines().forEach(System.err::println);
+                }
+            }
+
+        } catch (IOException e) {
+            System.err.println("Ошибка при отправке данных на сервер:");
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
 

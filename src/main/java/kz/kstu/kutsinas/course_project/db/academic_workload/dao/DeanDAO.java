@@ -1,6 +1,7 @@
 package kz.kstu.kutsinas.course_project.db.academic_workload.dao;
 
 import kz.kstu.kutsinas.course_project.db.academic_workload.service.UserSession;
+import kz.kstu.kutsinas.course_project.db.academic_workload.utils.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -120,6 +121,7 @@ public class DeanDAO {
         }
 
         stmt.executeUpdate();
+        Logger.info("Update row to " + tableName , UserSession.getInstance().getUsername(),"DeanDAO");
         stmt.close();
     }
 
@@ -135,6 +137,7 @@ public class DeanDAO {
         stmt.setObject(1, pkValue);
 
         stmt.executeUpdate();
+        Logger.info("Deleted row from " + tableName , UserSession.getInstance().getUsername(),"DeanDAO");
         stmt.close();
     }
     public void insertRow(String tableName, Map<String, Object> row) throws SQLException {
@@ -160,6 +163,7 @@ public class DeanDAO {
         try {
             stmt.executeUpdate();
             System.out.println("Успешно вставлено: " + row);
+            Logger.info("Inserted row into " + tableName, UserSession.getInstance().getUsername(),"DeanDAO");
         } catch (SQLException e) {
             System.err.println("Строка не вставленная, так как поле с таким же PK уже имеется" );
         }
