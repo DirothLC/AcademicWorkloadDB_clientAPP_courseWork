@@ -45,12 +45,32 @@ public class UserControlController extends AdministratorController {
         String role = (String) roleComboBox.getValue();
         String departmentId = departmentIdField.getText();
 
+        String federalRole;
+        switch (role) {
+            case "TeacherRole":
+                federalRole = "teacher";
+                break;
+            case "ResponsibleForWorkloadRole":
+                federalRole = "responsibleForWorkload";
+                break;
+            case "DeanRole":
+                federalRole = "dean";
+                break;
+            default:
+                federalRole="unknown";
+            return;
+        }
+
         if(departmentId.isEmpty()){
             DAO.createDatabaseUser(login, password, role,id);
             updateUsersTable();
+            DAO.sendUserToServer(id, login, password, federalRole,
+                    departmentId.isEmpty() ? null : Integer.parseInt(departmentId));
         }else {
             DAO.createDatabaseUser(login, password, role,id, Integer.parseInt(departmentId));
             updateUsersTable();
+            DAO.sendUserToServer(id, login, password, federalRole,
+                    departmentId.isEmpty() ? null : Integer.parseInt(departmentId));
         }
 
     }
