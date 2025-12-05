@@ -56,6 +56,7 @@ public class AdministratorDAO {
             stmt.executeUpdate();
             Reporter.alertConfirmReporting("Успех", "Резервная копия базы данных успешно создана: " + backupFilePath);
            stmt.close();
+           Logger.info("Database backup successfully",UserSession.getInstance().getUsername(), "Administrator");
 
         } catch (SQLException e) {
             Reporter.alertErrorReporting("Ошибка", "Не удалось создать резервную копию базы данных: " + e.getMessage());
@@ -217,7 +218,7 @@ public class AdministratorDAO {
 
             connection.commit();
             Reporter.alertConfirmReporting("Успех", "Пользователь успешно удалён: " + login);
-            Logger.info("Administrator Deleted User Login: " + login, UserSession.getInstance().getUsername(), "AdministratorDAO");
+            Logger.warn("Administrator Deleted User Login: " + login, UserSession.getInstance().getUsername(), "AdministratorDAO");
 
 
         } catch (SQLException e) {

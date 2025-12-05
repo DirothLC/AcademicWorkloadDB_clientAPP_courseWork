@@ -91,4 +91,9 @@ public class AdministratorController {
     private void onResetButtonClick(){
         LoadLogTable();
     }
+
+    @FXML
+    protected void on2FAButtonClick(){
+        ViewLoader.loadStage("2fa-view.fxml","Настройка 2FA");
+    }
 }

@@ -28,7 +28,8 @@
       <Text layoutX="438.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="с" />
       <Text layoutX="550.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="по" />
       <ComboBox fx:id="searchParameter" layoutX="280.0" layoutY="50.0" prefHeight="26.0" prefWidth="150.0" promptText="Параметр поиска" />
-      <Button layoutX="451.0" layoutY="13.0" mnemonicParsing="false" onAction="#onSearchButtonClick" prefHeight="26.0" prefWidth="98.0" text="Поиск" />
-      <Button layoutX="572.0" layoutY="13.0" mnemonicParsing="false" onAction="#onResetButtonClick" text="Сброс" />
+      <Button layoutX="451.0" layoutY="13.0" mnemonicParsing="false" onAction="#onSearchButtonClick" prefHeight="26.0" prefWidth="59.0" text="Поиск" />
+      <Button layoutX="510.0" layoutY="13.0" mnemonicParsing="false" onAction="#onResetButtonClick" prefHeight="26.0" prefWidth="59.0" text="Сброс" />
+      <Button layoutX="604.0" layoutY="13.0" mnemonicParsing="false" onAction="#on2FAButtonClick" text="2FA" />
    </children>
 </AnchorPane>

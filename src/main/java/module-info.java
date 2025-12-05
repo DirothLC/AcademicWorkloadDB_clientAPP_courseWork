@@ -10,7 +10,9 @@ module kz.kstu.kutsinas.course_project.db.academic_workload.academicworkload_cou
     requires org.apache.poi.ooxml;
     requires com.fasterxml.jackson.databind;
     requires java.sql;
-
+    requires com.google.zxing;
+    requires com.google.zxing.javase;
+    requires javafx.swing;
 
 
     exports kz.kstu.kutsinas.course_project.db.academic_workload.runner;

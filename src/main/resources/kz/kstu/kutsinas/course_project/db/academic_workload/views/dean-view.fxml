@@ -15,6 +15,7 @@
         <Button fx:id="saveButton" layoutX="419.0" layoutY="40.0" mnemonicParsing="false" onAction="#onSaveButtonClick" text="Сохранить" />
       <TextField fx:id="dataField" layoutX="494.0" layoutY="40.0" promptText="Поиск" />
       <Button layoutX="644.0" layoutY="40.0" mnemonicParsing="false" onAction="#onExportButtonClick" text="Export" />
+      <Button fx:id="on2FAButtonClick" layoutX="798.0" layoutY="14.0" mnemonicParsing="false" text="2FA" />
     </children>
 
 </AnchorPane>

@@ -79,4 +79,9 @@ public class TeacherController {
     protected void onLogoutButtonClick(){
         ViewLoader.loadStage("logout-view.fxml","Подтверждение выхода");
     }
+
+    @FXML
+    protected void on2FAButtonClick(){
+    ViewLoader.loadStage("2fa-view.fxml","Настройка 2FA");
+    }
 }

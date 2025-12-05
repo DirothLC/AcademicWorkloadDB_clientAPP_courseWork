@@ -12,5 +12,6 @@
       <Button fx:id="logoutButton" layoutX="740.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLogoutButtonClick" text="Выйти" textFill="#ef0202" />
       <RadioButton fx:id="viewButton" layoutX="229.0" layoutY="18.0" mnemonicParsing="false" selected="true" text="Выбор" />
       <TableView fx:id="tableView" layoutX="240.0" layoutY="74.0" prefHeight="486.0" prefWidth="551.0" tableMenuButtonVisible="true" />
+      <Button layoutX="697.0" layoutY="14.0" mnemonicParsing="false" onAction="#on2FAButtonClick" text="2FA" />
    </children>
 </AnchorPane>

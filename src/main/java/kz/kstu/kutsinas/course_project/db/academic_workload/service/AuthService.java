@@ -1,5 +1,6 @@
 package kz.kstu.kutsinas.course_project.db.academic_workload.service;
 
+import kz.kstu.kutsinas.course_project.db.academic_workload.dao.TwoFADAO;
 import kz.kstu.kutsinas.course_project.db.academic_workload.dao.UserDAO;
 import kz.kstu.kutsinas.course_project.db.academic_workload.dto.UserResponse;
 import kz.kstu.kutsinas.course_project.db.academic_workload.utils.DatabaseConnection;
@@ -11,6 +12,7 @@ import java.sql.SQLException;
 public class AuthService {
 
     private final UserDAO userDao;
+    private final TwoFADAO twoFADao = new TwoFADAO();
 
     public AuthService() {
         this.userDao = new UserDAO();

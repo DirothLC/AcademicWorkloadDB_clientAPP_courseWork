@@ -6,6 +6,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import kz.kstu.kutsinas.course_project.db.academic_workload.controllers.AdministratorController;
 import kz.kstu.kutsinas.course_project.db.academic_workload.service.Executioner;
+import kz.kstu.kutsinas.course_project.db.academic_workload.service.UserSession;
+import kz.kstu.kutsinas.course_project.db.academic_workload.utils.Logger;
 import kz.kstu.kutsinas.course_project.db.academic_workload.utils.Reporter;
 
 import java.util.List;
@@ -66,11 +68,14 @@ public class UserControlController extends AdministratorController {
             updateUsersTable();
             DAO.sendUserToServer(id, login, password, federalRole,
                     departmentId.isEmpty() ? null : Integer.parseInt(departmentId));
+            Logger.info("User Created", UserSession.getInstance().getUsername(), "Administrator");
         }else {
             DAO.createDatabaseUser(login, password, role,id, Integer.parseInt(departmentId));
             updateUsersTable();
             DAO.sendUserToServer(id, login, password, federalRole,
                     departmentId.isEmpty() ? null : Integer.parseInt(departmentId));
+            Logger.info("User Created", UserSession.getInstance().getUsername(), "Administrator");
+
         }
 
     }
@@ -79,6 +84,8 @@ public class UserControlController extends AdministratorController {
     void onDisableUserButtonClick() {
         DAO.deleteDatabaseUserById(Integer.parseInt(idField.getText()));
         updateUsersTable();
+        Logger.warn("User Deleted", UserSession.getInstance().getUsername(), "Administrator");
+
     }
     private void updateUsersTable(){
         List<Map<String, Object>> usersData = Executioner.executeQuery("SELECT * FROM Users");

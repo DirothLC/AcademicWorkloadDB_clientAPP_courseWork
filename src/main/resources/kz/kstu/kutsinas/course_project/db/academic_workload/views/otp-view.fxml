@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="221.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kz.kstu.kutsinas.course_project.db.academic_workload.controllers.OTPController">
+   <children>
+      <TextField fx:id="otpField" layoutX="105.0" layoutY="123.0" prefHeight="26.0" prefWidth="217.0" promptText="Google OTP" />
+      <Text layoutX="100.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Требуется ввод OTP кода" textAlignment="CENTER" wrappingWidth="227.037109375">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Button layoutX="170.0" layoutY="173.0" mnemonicParsing="false" onAction="#onConfirmButtonClick" text="Подтвердить" />
+   </children>
+</AnchorPane>
